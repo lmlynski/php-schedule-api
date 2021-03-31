@@ -1,0 +1,245 @@
+openapi: 3.0.0
+info:
+  title: API
+  version: 1.0.0
+paths:
+  /api/tasks/{guid}:
+    get:
+      summary: "Find task by GUID"
+      description: "Returns task data"
+      parameters:
+        - name: "guid"
+          in: "path"
+          description: "GUID of task to return"
+          required: true
+          type: "string"
+          example: "78cdd473-5ed7-451e-b0bf-546bd72e3b3c"
+      responses:
+        "200":
+          description: "Task object"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Task"
+        "404":
+          description: "Not found Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+  /api/tasks/me/today:
+    get:
+      security:
+        - bearerAuth: []
+      summary: "Find logged user tasks for today"
+      description: "Returns list of user tasks for today. To simplify we user GUID of user as JWT Auth Token in header (click Authorize button)"
+      responses:
+        "200":
+          description: "List of user tasks for today"
+          content:
+            application/json:
+              schema:
+                type: "array"
+                items:
+                  $ref: "#/components/schemas/Task"
+        "404":
+          description: "Not found Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+  /api/tasks:
+    post:
+      summary: "Add new task"
+      description: "Add new task"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddTaskRequestBody"
+      responses:
+        "200":
+          description: "Task created response"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TaskCreatedResponse"
+        "400":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+        "404":
+          description: "Not found Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+  /api/tasks/{guid}/change-status:
+    patch:
+      summary: "Change task status"
+      description: "Change task status"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeTaskStatusRequestBody"
+      parameters:
+        - name: "guid"
+          in: "path"
+          description: "GUID of task to change status"
+          required: true
+          type: "string"
+          example: "78cdd473-5ed7-451e-b0bf-546bd72e3b3c"
+      responses:
+        "200":
+          description: "Empty body (Just 200 OK)"
+        "400":
+          description: "Validation Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationErrorResponse"
+        "404":
+          description: "Not found Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotFoundErrorResponse"
+        "500":
+          description: "Internal Server Error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InternalServerErrorResponse"
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  schemas:
+    Task:
+      type: object
+      description: 'Task'
+      properties:
+        guid:
+          type: string
+          description: 'Task unique identifier (GUID)'
+          example: '78cdd473-5ed7-451e-b0bf-546bd72e3b3c'
+        title:
+          type: string
+          description: 'Task title'
+          example: 'some title'
+        description:
+          type: string
+          description: 'Task description'
+          example: 'some description'
+        assigneeId:
+          type: string
+          description: 'Task assignee id (GUID)'
+          example: '78cdd473-5ed7-451e-b0bf-546bd72e3b3c'
+        status:
+          type: string
+          description: 'Task status'
+          example: 'some status'
+        dueDate:
+          type: string
+          description: 'Task due date'
+          example: '2021-03-28'
+    TaskCreatedResponse:
+      type: object
+      description: 'Task Created Response'
+      properties:
+        guid:
+          type: string
+          description: 'Task unique identifier (GUID)'
+          example: '78cdd473-5ed7-451e-b0bf-546bd72e3b3c'
+    NotFoundErrorResponse:
+      type: object
+      description: 'Not Found Error Response'
+      properties:
+        errorMessage:
+          type: string
+          example: 'Not Found Message'
+    ValidationErrorResponse:
+      type: object
+      description: 'Validation Error Response'
+      properties:
+        errorMessage:
+          type: string
+          example: 'Validation Error'
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/ValidationError'
+    InternalServerErrorResponse:
+      type: object
+      description: 'Internal Server Error Response'
+      properties:
+        errorMessage:
+          type: string
+          example: 'Internal Server Error'
+    ValidationError:
+      type: object
+      description: 'Validation Error'
+      properties:
+        field:
+          type: string
+          description: 'Field name'
+          example: 'dueDate'
+        message:
+          type: string
+          description: 'Error message'
+          example: 'This value should be date format.'
+    AddTaskRequestBody:
+      type: object
+      properties:
+        title:
+          type: string
+          description: 'Task title'
+          example: 'some title'
+        description:
+          type: string
+          description: 'Task description'
+          example: 'some description'
+        assigneeId:
+          type: string
+          description: 'Task assignee id (GUID)'
+          example: '78cdd473-5ed7-451e-b0bf-546bd72e3b3c'
+        status:
+          type: string
+          description: 'Task status'
+          example: 'some status'
+        dueDate:
+          type: string
+          description: 'Task due date'
+          example: '2021-03-28'
+    ChangeTaskStatusRequestBody:
+      type: object
+      properties:
+        status:
+          type: string
+          description: 'Task status'
+          example: 'some status'

@@ -1,0 +1,19 @@
+task_details:
+    path: /api/tasks/{guid}
+    controller: App\UI\Http\Rest\TaskController::details
+    methods: GET
+
+task_update:
+    path: /api/tasks/{guid}/change-status
+    controller: App\UI\Http\Rest\TaskController::changeStatus
+    methods: PATCH
+
+my_tasks_today:
+    path: /api/tasks/me/today
+    controller: App\UI\Http\Rest\TaskController::meToday
+    methods: GET
+
+task_add:
+    path: /api/tasks
+    controller: App\UI\Http\Rest\TaskController::add
+    methods: POST

@@ -1,0 +1,7 @@
+kernel:
+    resource: ../../src/Kernel.php
+    type: annotation
+
+_swagger-ui:
+    resource: '@HBSwaggerUiBundle/Resources/config/routing.yml'
+    prefix: /docs

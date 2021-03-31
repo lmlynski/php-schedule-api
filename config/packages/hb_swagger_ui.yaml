@@ -1,0 +1,8 @@
+hb_swagger_ui:
+    directory: "%kernel.project_dir%/data/"
+    files:
+        - "swagger.yml"
+        - "xxx.yaml"
+        - "aaa.json"
+        - "file/aaa.json"
+#        - "my_other_swagger_spec.json"
