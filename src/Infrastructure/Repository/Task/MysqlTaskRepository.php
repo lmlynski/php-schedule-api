@@ -119,5 +119,4 @@ class MysqlTaskRepository implements TaskRepositoryInterface
 
         return $result;
     }
-
 }

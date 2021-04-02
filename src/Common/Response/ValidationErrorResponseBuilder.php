@@ -34,5 +34,4 @@ class ValidationErrorResponseBuilder implements ErrorResponseBuilderInterface
 
         return new JsonResponse($body, JsonResponse::HTTP_BAD_REQUEST);
     }
-
 }

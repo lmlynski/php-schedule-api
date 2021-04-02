@@ -26,5 +26,4 @@ class NotFoundErrorResponseBuilder implements ErrorResponseBuilderInterface
             JsonResponse::HTTP_NOT_FOUND
         );
     }
-
 }

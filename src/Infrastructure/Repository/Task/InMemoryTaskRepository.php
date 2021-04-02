@@ -8,6 +8,7 @@ use App\Application\Task\Query\UserFilter;
 use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepositoryInterface;
 use App\Domain\Task\Exception\TaskNotFoundException;
+use DateTimeImmutable;
 
 class InMemoryTaskRepository implements TaskRepositoryInterface
 {
@@ -48,7 +49,7 @@ class InMemoryTaskRepository implements TaskRepositoryInterface
             }
             foreach ($filter->getFields() as $key => $field) {
                 $value = $task->{'get' . ucfirst($key)}();
-                if ($value instanceof \DateTimeImmutable) {
+                if ($value instanceof DateTimeImmutable) {
                     $value = $value->format('Y-m-d');
                 }
                 if ($value !== $field) {
@@ -70,7 +71,7 @@ class InMemoryTaskRepository implements TaskRepositoryInterface
             'description one',
             '5966c003-b09b-40a3-abc7-cfcb6c31a954',
             'new',
-            new \DateTimeImmutable('2021-03-27')
+            new DateTimeImmutable('2021-03-27')
         );
         $this->tasks['e6752afc-dd94-4128-aa48-4c13e032e9c4'] = new Task(
             'e6752afc-dd94-4128-aa48-4c13e032e9c4',
@@ -78,7 +79,7 @@ class InMemoryTaskRepository implements TaskRepositoryInterface
             'description two',
             '05fe9fbd-273b-4878-8d4b-349e50318c2d',
             'done',
-            new \DateTimeImmutable('2021-04-09')
+            new DateTimeImmutable('2021-04-09')
         );
         $this->tasks['4653997f-13db-4a7a-a2db-736f75b00185'] = new Task(
             '4653997f-13db-4a7a-a2db-736f75b00185',
@@ -86,7 +87,7 @@ class InMemoryTaskRepository implements TaskRepositoryInterface
             'description three',
             'ef5e8615-7b8a-4c25-9e85-b1e8241686c8',
             'new',
-            new \DateTimeImmutable('2021-04-11')
+            new DateTimeImmutable('2021-04-11')
         );
         $this->tasks['78cdd473-5ed7-451e-b0bf-546bd72e3b3c'] = new Task(
             '78cdd473-5ed7-451e-b0bf-546bd72e3b3c',
@@ -94,8 +95,7 @@ class InMemoryTaskRepository implements TaskRepositoryInterface
             'description four',
             '5966c003-b09b-40a3-abc7-cfcb6c31a954',
             'in_progress',
-            new \DateTimeImmutable('2021-03-27')
+            new DateTimeImmutable('2021-03-27')
         );
     }
-
 }

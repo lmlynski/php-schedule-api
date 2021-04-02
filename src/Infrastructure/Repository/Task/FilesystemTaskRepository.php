@@ -10,6 +10,7 @@ use App\Domain\Task\Task;
 use App\Domain\Task\TaskRepositoryInterface;
 use App\Domain\Task\Exception\TaskNotFoundException;
 use Symfony\Component\Filesystem\Filesystem;
+use DateTimeImmutable;
 
 class FilesystemTaskRepository implements TaskRepositoryInterface
 {
@@ -56,7 +57,7 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
             $result['description'],
             $result['assigneeId'],
             $result['status'],
-            new \DateTimeImmutable($result['dueDate'])
+            new DateTimeImmutable($result['dueDate'])
         );
     }
 
@@ -93,7 +94,7 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
                 $item['description'],
                 $item['assigneeId'],
                 $item['status'],
-                new \DateTimeImmutable($item['dueDate'])
+                new DateTimeImmutable($item['dueDate'])
             );
         }
 
@@ -107,6 +108,7 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
         }
 
         $dataAsArray = json_decode(file_get_contents($this->dbFile), true);
+
         $dataAsArray[] = [
             'guid' => $task->getGuid(),
             'title' => $task->getTitle(),
@@ -126,6 +128,7 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
         }
 
         $dataAsArray = json_decode(file_get_contents($this->dbFile), true);
+
         foreach ($dataAsArray as $key => $element) {
             if ($element['guid'] === $task->getGuid()) {
                 $dataAsArray[$key]['title'] = $task->getTitle();

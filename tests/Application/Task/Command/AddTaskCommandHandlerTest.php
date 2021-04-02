@@ -28,12 +28,12 @@ class AddTaskCommandHandlerTest extends TestCase
             ->willReturn($taskWriteRepository);
 
         $command = new AddTaskCommand(
-            'some-guid-2',
-            'some-title-2',
-            'some-description-2',
-            'some-assigneeId-2',
-            'new',
-            new \DateTimeImmutable('2021-02-02'),
+            'some-guid',
+            'some-title',
+            'some-description',
+            'some-assigneeId',
+            'some-status',
+            new \DateTimeImmutable('2021-02-02')
         );
 
         $handler = new AddTaskCommandHandler($taskWriteRepositoryResolver);

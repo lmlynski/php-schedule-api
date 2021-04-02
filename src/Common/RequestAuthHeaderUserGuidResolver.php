@@ -31,13 +31,12 @@ class RequestAuthHeaderUserGuidResolver implements UserGuidResolverInterface
             return '';
         }
 
-        return str_replace(self::BEARER_PREFIX, '', $authHeaderValue);
+        return $this->extractUserGuidFromAuthorizationHeader($authHeaderValue);
     }
 
     private function extractUserGuidFromAuthorizationHeader(string $authHeaderValue): string
     {
         // to simplify we assume that token is user guid :)
-        return str_replace(self::BEARER_PREFIX, '', $authHeaderValue);
+        return str_ireplace(self::BEARER_PREFIX, '', $authHeaderValue);
     }
-
 }

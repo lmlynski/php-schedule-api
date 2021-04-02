@@ -16,7 +16,7 @@ class AddTaskCommand extends Command
 {
     protected static $defaultName = 'app:task:add';
     private CommandBusInterface $commandBus;
-    private string $validator;
+    private TaskAddValidator $validator;
 
     public function __construct(CommandBusInterface $commandBus, TaskAddValidator $validator, string $name = null)
     {
