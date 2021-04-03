@@ -38,3 +38,5 @@ http://localhost:8088/docs
 To run unit tests:
 
 `bin/phpunit tests/`
+
+If you have problems with mysql database create schema using sql from `docker/mysql/init_data.sql` file.
