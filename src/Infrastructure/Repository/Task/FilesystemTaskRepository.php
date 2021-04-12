@@ -118,7 +118,7 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
             'dueDate' => $task->getDueDate()->format('Y-m-d'),
         ];
 
-        file_put_contents($this->dbFile, json_encode($dataAsArray), JSON_PRETTY_PRINT);
+        file_put_contents($this->dbFile, json_encode($dataAsArray), FILE_APPEND | LOCK_EX);
     }
 
     public function save(Task $task): void
@@ -139,6 +139,6 @@ class FilesystemTaskRepository implements TaskRepositoryInterface
             }
         }
 
-        file_put_contents($this->dbFile, json_encode($dataAsArray), JSON_PRETTY_PRINT);
+        file_put_contents($this->dbFile, json_encode($dataAsArray), FILE_APPEND | LOCK_EX);
     }
 }
